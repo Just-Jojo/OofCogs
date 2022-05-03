@@ -59,12 +59,8 @@ class AdvancedEconomy(commands.Cog):
         }
         self.config.register_global(**default_global)
         self.config.register_user(**default_user)
-        self.startup_task = self.bot.loop.create_task(self.startup())
 
-    def cog_unload(self):
-        self.startup_task.cancel()
-
-    async def startup(self):
+    async def cog_load(self):
         await bank.set_global(True)
 
     async def red_delete_data_for_user(

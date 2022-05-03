@@ -26,9 +26,8 @@ class SQL(commands.Cog):
             identifier=572944636209922059,
             force_registration=True,
         )
-        self.startup_task = self.bot.loop.create_task(self.startup())
 
-    async def startup(self):
+    async def cog_load(self):
         mysql_cred = await self.bot.get_shared_api_tokens("mysql")
         self.sqql = mysql.connector.connect(
             user=mysql_cred.get("username"),
@@ -39,9 +38,6 @@ class SQL(commands.Cog):
         await self.bot.loop.run_in_executor(
             None, self.cursorr.execute, "SET @@wait_timeout = 31536000"
         )
-
-    def cog_unload(self):
-        self.startup_task.cancel()
 
     def format_help_for_context(self, ctx):
         """Thanks Sinbad!"""

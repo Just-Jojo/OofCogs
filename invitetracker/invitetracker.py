@@ -30,7 +30,6 @@ class InviteTracker(commands.Cog):
         }
         self.config.register_guild(**default_guild)
         self.invites = defaultdict(list)
-        bot.loop.create_task(self.load())
 
     __version__ = "1.2.0"
 
@@ -46,7 +45,7 @@ class InviteTracker(commands.Cog):
         # TODO: Replace this with the proper end user data removal handling.
         return
 
-    async def load(self):
+    async def cog_load(self):
         if self.me.guild_permissions.manage_guild == True:
             try:
                 self.invites[guild.id] = await guild.invites()
